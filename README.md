@@ -136,7 +136,36 @@ n : 평균을 내는 데이터 갯수<br>
 평균 필터와 비슷하지만 평균과 다르게 갯수가 정해져 있지 않아서 a를 임의로 결정할 수 있다. 여기서는 추정값이라고 하겠다.<br>
 
 아래 식들은 가중치가 적용되었는지 보여주는 증명이다.<br>
-![image](https://user-images.githubusercontent.com/42115807/85681755-92467800-b706-11ea-943c-3ef1753cf385.png)
+![image](https://user-images.githubusercontent.com/42115807/85681755-92467800-b706-11ea-943c-3ef1753cf385.png)<br>
+위 식을 앞에 있는 식에 대입하면 아래처럼 나온다<br>
+![image](https://user-images.githubusercontent.com/42115807/85692554-76e06a80-b710-11ea-9b60-9f22dec03ece.png)<br>
+a(1-a)와 1-a 크기를 비교할 때 0<a<1 이므로 a(1-a) < 1-a이다. 즉 최근 추정값이 이전 추정값보다 더 큰 가중치로 반영되었다.<br>
+-> 이전 측정 데이터일수록 더 작은 계수가 곱해진다는 사실을 알 수 있다.
+-> 잡음제거와 변화 민감성이라는 상충되는 요구를 이동평균 필터보다 잘 충족한다.
+
+## code
+    function xlpf = LPF(x)
+    %
+    %
+    persistent prevX
+    persistent firstRun
+
+    if isempty(firstRun)
+        prevX = x; % 오차를 줄이기 위해
+        firstRun = 1;
+    end
+
+    % 0 < alpha < 0.7
+    alpha = 0.7;
+
+    % 현재 최신값에 가중치를 더 크게 줘야한다.
+    % alpha가 작으면 추정값에 잡음이 더 나타난다.
+    % alpha가 크면 직전 추정값의 비중이 더 커서 잡음이 줄어들고 변화가 무뎌진다.
+    xlpf = alpha*prevX+(1-alpha)*x;
+
+    prevX = xlpf;
+
+
 
 
 # Kalman Filter(칼만필터)
