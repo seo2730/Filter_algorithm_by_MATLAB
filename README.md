@@ -133,6 +133,11 @@ n : 평균을 내는 데이터 갯수<br>
 ![image](https://user-images.githubusercontent.com/42115807/85680871-a8a00400-b705-11ea-8e44-b1c026040faa.png)
 ![image](https://user-images.githubusercontent.com/42115807/85680926-b786b680-b705-11ea-8acc-d85378612bd4.png)
 <br>
-평균 핉터와 비슷하지만 평균과 다르게 갯수가 정해져 있지 않아서 a를 임의로 결정할 수 있다. 여기서는 추정값이라고 하겠다.
+평균 필터와 비슷하지만 평균과 다르게 갯수가 정해져 있지 않아서 a를 임의로 결정할 수 있다. 여기서는 추정값이라고 하겠다.<br>
+
+아래 식들은 가중치가 적용되었는지 보여주는 증명이다.<br>
+![image](https://user-images.githubusercontent.com/42115807/85681755-92467800-b706-11ea-943c-3ef1753cf385.png)
+
+
 # Kalman Filter(칼만필터)
 
