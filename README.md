@@ -22,6 +22,42 @@ Xk만 따로 분리해서 우변을 두 개의 항으로 나눠보겠다.<br>
 ![image](https://user-images.githubusercontent.com/42115807/85671328-ba30de00-b6fc-11ea-8e0e-a3bae12116de.png)<br>k-1
 k/(k-1)로 나눈다. 그럼 최종적인 재귀식 평균 필터 식이 나온다.<br>
 ![image](https://user-images.githubusercontent.com/42115807/85671486-e0567e00-b6fc-11ea-88b3-56fbe61089fc.png)<br>
+<br>
+
+만약 a=(k-1)/k로 정의하면 a = 1 - 1/k이므로 아래 식처럼 표현된다.<br>
+![image](https://user-images.githubusercontent.com/42115807/85672011-6bd00f00-b6fd-11ea-8341-d89d593268b5.png)<br>
+a로 더 간결한 재귀식을 얻을 수 있다.<br>
+![image](https://user-images.githubusercontent.com/42115807/85672159-90c48200-b6fd-11ea-9652-cb62e58ecc03.png)<br>
+<br>
+평균필터는 평균 계산 외에 센서 초기화에 유용하게 쓰인다.<br>
+
+## code 설명
+    
+    function avg = AvgFilter(x)
+    %
+    %
+    persistent prevAvg k
+    persistent firstRun
+
+
+    if isempty(firstRun)
+        k = 1;
+        prevAvg = 0;
+    
+        firstRun = 1;
+    end
+
+    alpha = (k-1)/k;
+
+
+    % 평균 필터 = (1-K)/K * 전 값들 평균 + 1/K * 현재 값 
+
+    avg = alpha*prevAvg + (1-alpha)*x;
+
+    prevAvg = avg;
+    k = k+1;
+    
+prevAvg : 이전 평균값, k : 데이터 갯수, firstRun : 초기 시작인 것을 알려주는 변수<br>
 
 # Moving Average Filter(이동 평균 필터)
 
