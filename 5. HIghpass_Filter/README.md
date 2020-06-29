@@ -62,22 +62,29 @@ G를 Y/U로 바꿔서 양변을 정리하면<br>
 
 #### 저주파 식과 비교
 - 저주파 필터 전달함수
+
 ![image](https://user-images.githubusercontent.com/42115807/86018339-2e9eb080-ba60-11ea-967b-b4599eeee295.png)<br>
 -> 전달함수가 0으로 수렴하면 필터의 출력도 1로 수렴한다. 즉 주파수가 낮으면 입력 신호가 필터 그대로 통과한다.<br>
 -> 전달함수가 무한대면 필터의 출력은 0으로 수렴한다. 즉 주파수가 높으면 입력 신호가 필터를 통과하지 못한다.<br>
 즉 저주파 필터라는 것을 알 수 있다.<br>
 <br>
 우변에서 분자와 분모를 a로 나누면 (ㅜ=1/a)<br>
+
 ![image](https://user-images.githubusercontent.com/42115807/86018982-ff3c7380-ba60-11ea-9972-d02a879586ed.png)<br>
 G를 Y/U로 바꿔서 양변을 정리하면<br>
+
 ![image](https://user-images.githubusercontent.com/42115807/86019055-15e2ca80-ba61-11ea-89ea-557f248f87a2.png)<br>
 양변에 라플라스 역변환을 취하면<br>
+
 ![image](https://user-images.githubusercontent.com/42115807/86019168-3b6fd400-ba61-11ea-96f9-9c5716f77e7f.png)<br>
 연속 시간(continuous)에서 이산 시간(discrete)으로 바꾸면<br>
+
 ![image](https://user-images.githubusercontent.com/42115807/86019600-c3ee7480-ba61-11ea-8a09-305d5b552646.png)<br>
 이 식들을 풀면<br>
+
 ![image](https://user-images.githubusercontent.com/42115807/86019747-f26c4f80-ba61-11ea-9d2a-ac186999ecd5.png)<br>
 이 식을 통해 a는 아래 관계를 만족한다.<br>
+
 ![image](https://user-images.githubusercontent.com/42115807/86019822-116ae180-ba62-11ea-82f9-4fd759ad9e45.png)<br>
 a는 앞서 단순한 가중치로만 이해했지만 식을 풀면 더 복잡한 의미가 담겨져 있다.<br>
 즉 시스템의 주파수 특성과 필터의 요구 성능을 고려해 a를 선정한다.<br>
