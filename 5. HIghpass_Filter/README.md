@@ -18,14 +18,20 @@
 -> 즉 고주파 필터이다.<br>
 <br>
 우변에서 분자와 분모를 a로 나누면 (ㅜ=1/a)<br>
+
 ![image](https://user-images.githubusercontent.com/42115807/86015469-93f0a280-ba5c-11ea-97f7-09e85bb16d18.png)<br>
 G를 Y/U로 바꿔서 양변을 정리하면<br>
+
 ![image](https://user-images.githubusercontent.com/42115807/86016109-5e988480-ba5d-11ea-84ac-1a5eb68ab14b.png)<br>
 양변에 라플라스 역변환을 취하면<br>
+
 ![image](https://user-images.githubusercontent.com/42115807/86016330-9f909900-ba5d-11ea-8a84-2e18a0cdd59a.png)<br>
+
 연속 시간(continuous)에서 이산 시간(discrete)으로 바꾸면<br>
 ![image](https://user-images.githubusercontent.com/42115807/86016566-e4b4cb00-ba5d-11ea-9bec-59bb51f091b2.png)<br>
+
 시간의 변화량(t)를 곱하고 정리하면 아래 식이 고주파 통과필터이다.<br>
+
 ![image](https://user-images.githubusercontent.com/42115807/86016730-23e31c00-ba5e-11ea-8f9e-cee8d00eb1a0.png)<br>
 
 #### 고주파 통과 필터 함수
