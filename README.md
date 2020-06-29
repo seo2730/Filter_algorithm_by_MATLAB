@@ -265,7 +265,7 @@ Zk-(HX^-k)는 실제 측정값과 예측한 측정값의 차이, 즉 측정값�
 다시 말해 칼만 필터의 성능은 시스템 모델에 달려있다.
 
 ## 시스템 모델
-시스템 모델 : 시스템을 수학적으로 모델링하여 시스템 모델을 유도해는 것
+시스템 모델 : 시스템을 수학적으로 모델링하여 시스템 모델을 유도해는 것<br>
 ![image](https://user-images.githubusercontent.com/42115807/85972648-85c66600-ba0b-11ea-9a4a-6516babc654c.png)<br>
 시스템 모델을 상태 공간 모델로 이용해서 푼다. 아래 사진은 각 변수의 의미를 나타낸다.<br>
 ![image](https://user-images.githubusercontent.com/42115807/85972954-4f3d1b00-ba0c-11ea-946c-945fcd04054f.png)<br>
@@ -305,6 +305,53 @@ R과 정반대인 행보를 보인다.<br>
 
 - Q 증가 -> 칼만 이득 증가 -> 측정값 가중치 증가, 예측값 가중치 감소 <br>
 - R 증가 -> 칼만 이득 감소 -> 측정값 가중치 감소, 예측값 가중치 증가 <br>
+
+# 칼만필터 응용
+
+## 초간단 예제
+>배터리 전압을 측정하는데 잡음이 심해서 잴 때마다 달라서 칼만필터로 측정 데이터의 잡음을 제거해보기로 했다. 전압은 0.2초 간격으로 측정한다.
+아래 식은 예제의 시스템 모델을 상태공간에 표현한 식이다.<br>
+![image](https://user-images.githubusercontent.com/42115807/85975819-0d17d780-ba14-11ea-875d-d01ae9dc47f4.png)<br>
+
+1. 첫 번째 식은 배터리의 전압은 일정하게 유지되는데 그 값이 14V이다.<br>
+2. 두 번째 식은 전압이 측정값인데 잡음이 섞여 있다는 의미다. Vk는 평균이 0이고 표준편차가 2인 정규분포를 따른다<br>
+3. 이 식을 이용해 시스템 변수인 A, H, Q, R을 아래 식으로 구할 수 있다.<br>
+
+![image](https://user-images.githubusercontent.com/42115807/85976627-e35fb000-ba15-11ea-861f-91d4a7bc4f91.png)<br>
+<br>
+만약 초기값에 대한 정보가 없다면 오차 공분산은 크게 잡는게 좋다.<br>
+
+- 칼만 필터의 함수
+
+    function volt = SimpleKalman(z)
+    %
+    %
+    persistent A H Q R  % 시스템 모델 변수
+    persistent x P      % 초기값
+    persistent firstRun
+
+    if isempty(firstRun)
+        A = 1;
+        H = 1;
+        Q = 0;
+        R = 4;
+    
+        x = 14;
+        P = 6;
+    
+        firstRun = 1;
+    end
+
+    xp = A*x;                   % 추정값 예측
+    Pp = A*P*A'+ Q;             % 오차 공분산 예측
+
+    K = Pp*H'* (H*Pp*H'+R)^-1;  % 칼만이득 계산
+
+    x = xp + K*(z - H*xp);      % 추정값 계산
+    P = Pp - K*H*Pp;            % 오차 공분산 계산
+
+    volt = x;                   % 반환값
+    end
 
 
 
