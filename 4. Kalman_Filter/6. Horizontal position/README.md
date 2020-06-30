@@ -89,5 +89,63 @@ g : 중력 가속도<br>
 
 #### 시스템 모델
 오일러각은 문제가 많으므로 쿼터니언(Quantemion)으로 상태변수로 잡겠다.<br>
-![image](https://user-images.githubusercontent.com/42115807/86085569-6ea27980-bada-11ea-9ad4-15c3431a2703.png)
-->![image](https://user-images.githubusercontent.com/42115807/86085613-81b54980-bada-11ea-8872-ed418294a2fc.png)
+![image](https://user-images.githubusercontent.com/42115807/86085569-6ea27980-bada-11ea-9ad4-15c3431a2703.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86085613-81b54980-bada-11ea-8872-ed418294a2fc.png)<br>
+위 식을 이산(discrete) 시스템으로 바꾸면<br>
+![image](https://user-images.githubusercontent.com/42115807/86085700-bcb77d00-bada-11ea-9013-422d83d94152.png)<br>
+아래 식은 오일러 각을 쿼터니언으로 바꾸는 공식이다.<br>
+![image](https://user-images.githubusercontent.com/42115807/86085940-66970980-badb-11ea-9aae-95b42a396c36.png)<br>
+이 쿼터니언이 칼만필터의 측정값에 해당된다. 행렬 H는 단위행렬이 된다.<br>
+
+#### 센서 융합 칼만 필터
+쿼터니언은 물리적인 의미가 없기 때문에 추정 결과는 오일러 각으로 출력하는게 더 낫다.<br>
+잡음의 공분산 행렬 Q와 R은 시스템의 신호 특성과 관련 있는 값으로 이론적으로 구하기 어렵고 실제 데이터를 분석해봐야한다.<br>
+
+- EulerKalman.m
+    
+      function [phi, theta, psi] = EulerKalman(A,z)
+
+      persistent H Q R
+      persistent x P
+      persistent firstRun
+  
+      if isempty(firstRun)
+          H = eye(4);
+    
+          Q = 0.0001*eye(4);
+          R = 10*eye(4);
+      
+          x = [1 0 0 0]';
+          P = 1*eye(4);
+    
+          firstRun = 1; 
+      end
+
+      xp = A*x;
+      Pp = A*P*A' + Q;
+
+      K = Pp*H'*(H*Pp*H'+R)^-1;
+
+      x = xp + K*(z - H*xp); % x = [q1, q2, q3, q4]
+      P = Pp - K*H*Pp;
+
+      phi = atan2( 2*(x(3)*x(4) + x(1)*x(2)) , 1-2*(x(2)^2 + x(3)^2) );
+      theta = -asin( 2*(x(2)*x(4) - x(1)*x(3)) );
+      psi = atan2( 2*(x(2)*x(3) + x(1)*x(4)), 1-2*(x(3)^2 + x(4)^2) );
+
+      end
+    
+- EulerToQuaternion.m
+
+      function z = EulerToQuaternion(phi,theta,psi)
+
+      sinPhi   = sin(phi/2);   cosPhi   = cos(phi/2);
+      sinTheta = sin(theta/2); cosTheta = cos(theta/2);
+      sinPsi   = sin(psi/2);   cosPsi   = cos(psi/2);
+
+      z = [cosPhi*cosTheta*cosPsi + sinPhi*sinTheta*sinPsi;
+           sinPhi*cosTheta*cosPsi - cosPhi*sinTheta*sinPsi;
+           cosPhi*sinTheta*cosPsi + sinPhi*cosTheta*sinPsi;
+           cosPhi*cosTheta*sinPsi + sinPhi*sinTheta*cosPsi];
+ 
+      end
