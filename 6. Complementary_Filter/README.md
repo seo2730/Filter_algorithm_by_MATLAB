@@ -86,14 +86,16 @@ z(t) : 최종 측정 결과<br>
           prevPsi   = 0;
       end
 
-      [phi_a, theta_a] = EulerAccel(ax,ay);
+      [phi_a, theta_a] = EulerAccel(ax,ay); % 측정된 가속도로 각도 추출
 
-      [dotPhi, dotTheta, dotPsi] = BodyToInertial(p,q,r,prevPhi,prevTheta);
+      [dotPhi, dotTheta, dotPsi] = BodyToInertial(p,q,r,prevPhi,prevTheta); % 측정된 자이로로 각도 추출
 
+      % 상보 필터
       phi   = prevPhi + dt*(dotPhi - p_hat);
       theta = prevTheta + dt*(dotTheta - q_hat);
       psi   = prevPsi + dt*dotPsi;
 
+      % PI 제어기
       p_hat = PILawPhi(phi - phi_a);
       q_hat = PILawTheta(theta - theta_a);
 
@@ -103,6 +105,7 @@ z(t) : 최종 측정 결과<br>
 
       end
 
+      % 자이로로 각도 추출 함수
       function [dotPhi,dotTheta, dotPsi] = BodyToInertial(p,q,r,phi,theta)
       % Bodyrate --> Euler angular rate
       %
