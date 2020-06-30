@@ -169,10 +169,11 @@ ijk = -1로 통해 아래 식들이 성립한다.<br>
     
 <br>
 두 사원수 w = w0 + w1i + w2j + w3k와 z = z0 + z1i + z2j + z3k에 대해 곱셈 wz는 다음과 같다.<br>
->wz = (Sw,Vw)(Sz,Vz) = Sw*Sz ㅡ Vw*Vz + Sw*Vz + Sz*Vw + Vw x Vz (S : 실수부, V : 벡터부)
+
+>wz = (Sw,Vw)(Sz,Vz) = Sw*Sz ㅡ Vw*Vz + Sw*Vz + Sz*Vw + Vw x Vz (S : 실수부, V : 벡터부)<br>
 
 >wz = (w0 + w1i + w2j + w3k)(z0 + z1i + z2j + z3k)
-    = w0*z0 ㅡ  (w1*z1 + x2*z2 + w3*z3) + (w0*z1 + w1*z0 + w2*z3 - w3*z2)i + (w0*z2 + w2*z0 + w3*z1 - w1*z3)j + (w0*z3 + w3*z0 + w1*z2 - w2*z1)k
-    = w0*z0 ㅡ (w.z) + w0*[z] + z0*[w] + [w2*z3 - w3*z2; w3*z1 - w1*z3; w1*z2 - w2*z1]
-    = w0*z0 ㅡ (Vm.Vz) + w0*Vz + z0 * Vm + Vm x Vz (. : 내적, x : 외적)
+    = w0*z0 ㅡ  (w1*z1 + x2*z2 + w3*z3) + (w0*z1 + w1*z0 + w2*z3 - w3*z2)i + (w0*z2 + w2*z0 + w3*z1 - w1*z3)j + (w0*z3 + w3*z0 + w1*z2 - w2*z1)k<br>
+    = w0*z0 ㅡ (w.z) + w0*[z] + z0*[w] + [w2*z3 - w3*z2; w3*z1 - w1*z3; w1*z2 - w2*z1]<br>
+    = w0*z0 ㅡ (Vm.Vz) + w0*Vz + z0 * Vm + Vm x Vz (. : 내적, x : 외적)<br>
     
