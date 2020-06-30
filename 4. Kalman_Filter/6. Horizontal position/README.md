@@ -149,3 +149,6 @@ g : 중력 가속도<br>
            cosPhi*cosTheta*sinPsi + sinPhi*sinTheta*cosPsi];
  
       end
+
+일반적인 센서 융합 문제에서 시스템 모델이 칼만 필터가 요구하는 선형 시스템 모델로 표현되는 경우는 드물다.<br>
+자이로와 가속도 융합이 특별한 경우다.
