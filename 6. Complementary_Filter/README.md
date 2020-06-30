@@ -70,6 +70,8 @@ z(t) : 최종 측정 결과<br>
 이 함수는 각속도와 가속도를 입력 받아 오일러 각을 반환한다.<br>
 수평 자세(row, pitch)는 상보 필터로 유용하지만 yaw 각은 단순히 각속도를 적분한 값이다. yaw 각까지 보상할려면 방위각을 측정하는 센서를 추가해야한다.<br>
 
+- ComFilterWithPI.m
+
     function [phi, theta, psi] = ComFilterWithPI(p,q,r,ax,ay,dt)
 
     persistent p_hat q_hat
@@ -114,3 +116,50 @@ z(t) : 최종 측정 결과<br>
 
     end
 
+아래는 자이로와 가속도 센서의 PI 제어기 함수다.<br>
+
+- PILawPhi.m
+    
+    function p_hat = PILawPhi(delPhi)
+
+    persistent prevP prevdelPhi
+
+    if isempty(prevP)
+        prevP = 0;
+        prevdelPhi = 0;
+    end
+
+    p_hat = prevP + 0.1415*delPhi - 0.1414*prevdelPhi;
+
+    prevP = p_hat;
+    prevdelPhi = delPhi;
+
+    end
+    
+- PILawTheta.m
+
+    function q_hat = PILawTheta(delTheta)
+
+    persistent prevQ prevdelTheta
+
+    if isempty(prevQ)
+        prevQ = 0;
+        prevdelTheta = 0;
+    end
+
+    q_hat = prevQ + 0.1415*delTheta - 0.1414*prevdelTheta;
+
+    prevQ = q_hat;
+    prevdelTheta = delTheta;
+
+    end
+
+함수가 복잡한 이유는 적분기(1/s)를 수치적으로 구현하는 코드 때문이다. 아래 식은 PI 제어기 전달함수이다.<br>
+![image](https://user-images.githubusercontent.com/42115807/86077096-56286400-bac6-11ea-92ed-ff26d727289b.png)<br>
+여기서 Kp, Ki 값을 아래 사진처럼 선정하였다.<br>
+![image](https://user-images.githubusercontent.com/42115807/86076820-ba96f380-bac5-11ea-9339-9f8a736148dd.png)<br>
+MATLAB의 c2dm함수로 전달함수를 이산(discrete) 수식으로 변환하면 아래 식처럼 나온다.<br>
+![image](https://user-images.githubusercontent.com/42115807/86076961-0cd81480-bac6-11ea-8c0e-8cd81bbeeffa.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86076975-15c8e600-bac6-11ea-9565-f8d81cab9755.png)<br>
+PI 제어기의 최종 계산식은<br>
+![image](https://user-images.githubusercontent.com/42115807/86077240-94be1e80-bac6-11ea-9a28-2eebdd5ce317.png)
