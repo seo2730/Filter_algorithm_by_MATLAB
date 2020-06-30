@@ -72,87 +72,87 @@ z(t) : 최종 측정 결과<br>
 
 - ComFilterWithPI.m
 
-    function [phi, theta, psi] = ComFilterWithPI(p,q,r,ax,ay,dt)
+      function [phi, theta, psi] = ComFilterWithPI(p,q,r,ax,ay,dt)
 
-    persistent p_hat q_hat
-    persistent prevPhi prevTheta prevPsi
+      persistent p_hat q_hat
+      ersistent prevPhi prevTheta prevPsi
 
-    if isempty(p_hat)
-        p_hat = 0;
-        q_hat = 0;
+      if isempty(p_hat)
+          p_hat = 0;
+          q_hat = 0;
     
-        prevPhi   = 0;
-        prevTheta = 0;
-        prevPsi   = 0;
-    end
+          prevPhi   = 0;
+          prevTheta = 0;
+          prevPsi   = 0;
+      end
 
-    [phi_a, theta_a] = EulerAccel(ax,ay);
+      [phi_a, theta_a] = EulerAccel(ax,ay);
 
-    [dotPhi, dotTheta, dotPsi] = BodyToInertial(p,q,r,prevPhi,prevTheta);
+      [dotPhi, dotTheta, dotPsi] = BodyToInertial(p,q,r,prevPhi,prevTheta);
 
-    phi   = prevPhi + dt*(dotPhi - p_hat);
-    theta = prevTheta + dt*(dotTheta - q_hat);
-    psi   = prevPsi + dt*dotPsi;
+      phi   = prevPhi + dt*(dotPhi - p_hat);
+      theta = prevTheta + dt*(dotTheta - q_hat);
+      psi   = prevPsi + dt*dotPsi;
 
-    p_hat = PILawPhi(phi - phi_a);
-    q_hat = PILawTheta(theta - theta_a);
+      p_hat = PILawPhi(phi - phi_a);
+      q_hat = PILawTheta(theta - theta_a);
 
-    prevPhi   = phi;
-    prevTheta = theta;
-    prevPsi   = psi;
+      prevPhi   = phi;
+      prevTheta = theta;
+      prevPsi   = psi;
 
-    end
+      end
 
-    function [dotPhi,dotTheta, dotPsi] = BodyToInertial(p,q,r,phi,theta)
-    % Bodyrate --> Euler angular rate
-    %
+      function [dotPhi,dotTheta, dotPsi] = BodyToInertial(p,q,r,phi,theta)
+      % Bodyrate --> Euler angular rate
+      %
 
-    sinPhi   = sin(phi);   cosPhi   = cos(phi);
-    cosTheta = cos(theta); tanTheta = tan(theta);
+      sinPhi   = sin(phi);   cosPhi   = cos(phi);
+      cosTheta = cos(theta); tanTheta = tan(theta);
 
-    dotPhi = p + q*sinPhi*tanTheta + r*cosPhi*tanTheta;
-    dotTheta = q*cosPhi - r*sinPhi;
-    dotPsi = q*sinPhi/cosTheta + r*cosPhi/cosTheta;
+      dotPhi = p + q*sinPhi*tanTheta + r*cosPhi*tanTheta;
+      dotTheta = q*cosPhi - r*sinPhi;
+      dotPsi = q*sinPhi/cosTheta + r*cosPhi/cosTheta;
 
-    end
+      end
 
 아래는 자이로와 가속도 센서의 PI 제어기 함수다.<br>
 
 - PILawPhi.m
     
-    function p_hat = PILawPhi(delPhi)
+      function p_hat = PILawPhi(delPhi)
 
-    persistent prevP prevdelPhi
+      persistent prevP prevdelPhi
 
-    if isempty(prevP)
-        prevP = 0;
-        prevdelPhi = 0;
-    end
+      if isempty(prevP)
+          prevP = 0;
+          prevdelPhi = 0;
+      end
 
-    p_hat = prevP + 0.1415*delPhi - 0.1414*prevdelPhi;
+      p_hat = prevP + 0.1415*delPhi - 0.1414*prevdelPhi;
 
-    prevP = p_hat;
-    prevdelPhi = delPhi;
+      prevP = p_hat;
+      prevdelPhi = delPhi;
 
-    end
+      end
     
 - PILawTheta.m
 
-    function q_hat = PILawTheta(delTheta)
+      function q_hat = PILawTheta(delTheta)
 
-    persistent prevQ prevdelTheta
+      persistent prevQ prevdelTheta
 
-    if isempty(prevQ)
-        prevQ = 0;
-        prevdelTheta = 0;
-    end
+      if isempty(prevQ)
+          prevQ = 0;
+          prevdelTheta = 0;
+      end
 
-    q_hat = prevQ + 0.1415*delTheta - 0.1414*prevdelTheta;
+      q_hat = prevQ + 0.1415*delTheta - 0.1414*prevdelTheta;
 
-    prevQ = q_hat;
-    prevdelTheta = delTheta;
+      prevQ = q_hat;
+      prevdelTheta = delTheta;
 
-    end
+      end
 
 함수가 복잡한 이유는 적분기(1/s)를 수치적으로 구현하는 코드 때문이다. 아래 식은 PI 제어기 전달함수이다.<br>
 ![image](https://user-images.githubusercontent.com/42115807/86077096-56286400-bac6-11ea-92ed-ff26d727289b.png)<br>
