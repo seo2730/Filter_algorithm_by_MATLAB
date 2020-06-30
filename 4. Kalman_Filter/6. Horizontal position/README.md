@@ -177,3 +177,40 @@ ijk = -1로 통해 아래 식들이 성립한다.<br>
     = w0*z0 ㅡ (w.z) + w0*[z] + z0*[w] + [w2*z3 - w3*z2; w3*z1 - w1*z3; w1*z2 - w2*z1]<br>
     = w0*z0 ㅡ (Vm.Vz) + w0*Vz + z0 * Vm + Vm x Vz (. : 내적, x : 외적)<br>
     
+사원수 곱셈을 이용하여 다음과 같은 간단한 정리를 이끌어 낼 수 있다.<br>
+
+>wz - zw = Sw*Sz ㅡ Vw.Vz + Sw*Vz + Sz*Vw + Vw x Vz ㅡ (Sz*Sw ㅡ Vz.Vw + Sz*Vw + Sw*Vz + Vz x Vw)<br>
+         = (Vw x Vz) ㅡ (Vz x Vw)<br>
+         = 2*(Vw x Vz)<br>
+   
+위 식은 **[w,z] = wz - zw**로 쓰기도 한다.<br>
+<br>
+사원수의 실수부가 0인 경우르 pure quaternion이라 한다.<br>
+사원수 w,z가 pure quaternion이라 할 때<br>
+
+>wz + zw = Sw*Sz ㅡ Vw*Vz + Sw*Vz + Sz*Vw + Vw x Vz + (Sz*Sw ㅡ Vz*Vw + Sz*Vw + Sw*Vz + Vz x Vw)<br>
+         = -2*(Vw.Vz) + (Vw x Vz) + (Vz + Vw)<br>
+         = -2*(Vw.Vz)<br>
+<br>
+복소수에 대응하는 켤레 복소수를 곱하면 복소수의 크기의 제곱을 얻는다.<br>
+q = q0 + q1i + q2j + q3k -> q* = q0 - q1i - q2j - q3k<br>
+qq* = (q0 + q1i + q2j + q3k)(q0 - q1i - q2j - q3k) = q0^2 + q1^2 + q2^2 + q3^2 = q의 크기 제곱(|q|^2)<br>
+<br>
+사원수 q의 크기 |q|가 1일 때 사원수 q를 **단위 사원수** 라고 한다.
+->q* = q^-1<br>
+<br>
+#### 오일러 각과 사원수
+w = w0 + w1i + w2j + w3k가 단위 사원수라 할 때 w^2 = w0^2 + w1^2 + w2^2 + w3^2 = 1이므로 -1<=w0<=1이다.<br>
+-> **w0 = cosθ** 로 쓸 수 있다.<br>
+<br>
+w = cosθ + v(v = w1i + w2j + w3k)라 쓸 때 다음이 성립한다.<br>
+|w|^2 = cosθ^2 + |v|^2 = 1<br>
+-> |v|^2 = 1 - cosθ^2 = sinθ^2<br>
+<br>
+w의 벡터부 v를 |v|u라 할 때(u는 v와 방향이 같은 단위 벡터) 아래 식을 유도할 수 있다.<br>
+v = u * sinθ<br>
+<br>
+따라서 w = cosθ + v를 다음과 같이 오일러 각에 대한 표현을 바꿀 수 있다.<br>
+w = cosθ + u * sinθ = e^θ*u
+
+#### 쿼터니언 회전
