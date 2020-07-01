@@ -214,3 +214,8 @@ v = u * sinθ<br>
 w = cosθ + u * sinθ = e^θ*u
 
 #### 쿼터니언 회전
+![image](https://user-images.githubusercontent.com/42115807/86194801-6dc92080-bb8a-11ea-91e1-00db7e2d8835.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86194812-74579800-bb8a-11ea-823e-8f1883982905.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86194822-7e799680-bb8a-11ea-85fc-c25ddb59f35c.png)<br>
+정리한 문서을 토대로 식을 전개하면 최종적으로 아래 공식이 나온다.<br>
+![image](https://user-images.githubusercontent.com/42115807/86085613-81b54980-bada-11ea-8872-ed418294a2fc.png)<br>
