@@ -18,28 +18,28 @@
 ![image](https://user-images.githubusercontent.com/42115807/86082379-8c6be080-bad2-11ea-9575-f92b12046f01.png)<br>
 위 식을 이용해 EulerGyro.m 코드로 자이로에서 측정한 각속도와 샘플링 시간을 인자로 받아 오일러각을 반환하다.<br>
 
-    function [phi, theta, psi] = EulerGyro(p,q,r,dt)
+      function [phi, theta, psi] = EulerGyro(p,q,r,dt)
 
-    persistent prevPhi prevTheta prevPsi % ÃøÁ¤°ª
+      persistent prevPhi prevTheta prevPsi % ÃøÁ¤°ª
 
-    if isempty(prevPhi)
-        prevPhi   = 0;
-        prevTheta = 0;
-        prevPsi   = 0;
-    end
+      if isempty(prevPhi)
+          prevPhi   = 0;
+          prevTheta = 0;
+          prevPsi   = 0;
+      end
 
-    sinPhi    = sin(prevPhi);   cosPhi   = cos(prevPhi);
-    cosTheta = cos(prevTheta); tanTheta = tan(prevTheta);
+      sinPhi    = sin(prevPhi);   cosPhi   = cos(prevPhi);
+      cosTheta = cos(prevTheta); tanTheta = tan(prevTheta);
 
-    phi   = prevPhi + dt*(p+q*sinPhi*tanTheta+r*cosPhi*tanTheta);
-    theta = prevTheta + dt*(q*cosPhi-r*sinPhi);
-    psi = prevPsi + dt*(q*sinPhi/cosTheta + r*cosPhi/cosTheta);
+      phi   = prevPhi + dt*(p+q*sinPhi*tanTheta+r*cosPhi*tanTheta);
+      theta = prevTheta + dt*(q*cosPhi-r*sinPhi);
+      psi = prevPsi + dt*(q*sinPhi/cosTheta + r*cosPhi/cosTheta);
 
-    prevPhi = phi;
-    prevTheta = theta;
-    prevPsi = psi;
+      prevPhi = phi;
+      prevTheta = theta;
+      prevPsi = psi;
 
-    end
+      end
 
 초기 값을 알고 있다는 가정하에 (p,q,r)를 대입하여 적분하면 현재의 자세를 구할 수 있지만 적분하면 자세에서 오차가 누적된다.<br>
 -> 이 방법은 센서가 아주 정밀하거나 운용 시간이 짧지 않으면 실제로 사용하기 어렵다.<br>
