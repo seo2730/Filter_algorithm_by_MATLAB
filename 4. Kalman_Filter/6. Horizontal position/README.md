@@ -214,8 +214,10 @@ v = u * sinθ<br>
 w = cosθ + u * sinθ = e^θ*u
 
 #### 쿼터니언 회전
-![image](https://user-images.githubusercontent.com/42115807/86194801-6dc92080-bb8a-11ea-91e1-00db7e2d8835.png)<br>
-![image](https://user-images.githubusercontent.com/42115807/86194812-74579800-bb8a-11ea-823e-8f1883982905.png)<br>
-![image](https://user-images.githubusercontent.com/42115807/86194822-7e799680-bb8a-11ea-85fc-c25ddb59f35c.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86202648-cd7cf700-bb9d-11ea-9e7d-d3601a2c3f98.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86202661-da014f80-bb9d-11ea-9177-662fd38b4c18.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86202724-0d43de80-bb9e-11ea-8271-728ae4bd1aa3.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86202759-251b6280-bb9e-11ea-80be-6e177bc94b20.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86202791-37959c00-bb9e-11ea-9c3e-ed62c9569b95.png)<br>
 정리한 문서을 토대로 식을 전개하면 최종적으로 아래 공식이 나온다.<br>
 ![image](https://user-images.githubusercontent.com/42115807/86085613-81b54980-bada-11ea-8872-ed418294a2fc.png)<br>
