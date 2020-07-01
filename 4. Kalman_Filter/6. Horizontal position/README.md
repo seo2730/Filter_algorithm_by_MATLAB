@@ -89,5 +89,133 @@ g : 중력 가속도<br>
 
 #### 시스템 모델
 오일러각은 문제가 많으므로 쿼터니언(Quantemion)으로 상태변수로 잡겠다.<br>
-![image](https://user-images.githubusercontent.com/42115807/86085569-6ea27980-bada-11ea-9ad4-15c3431a2703.png)
-->![image](https://user-images.githubusercontent.com/42115807/86085613-81b54980-bada-11ea-8872-ed418294a2fc.png)
+![image](https://user-images.githubusercontent.com/42115807/86085569-6ea27980-bada-11ea-9ad4-15c3431a2703.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86085613-81b54980-bada-11ea-8872-ed418294a2fc.png)<br>
+위 식을 이산(discrete) 시스템으로 바꾸면<br>
+![image](https://user-images.githubusercontent.com/42115807/86085700-bcb77d00-bada-11ea-9013-422d83d94152.png)<br>
+아래 식은 오일러 각을 쿼터니언으로 바꾸는 공식이다.<br>
+![image](https://user-images.githubusercontent.com/42115807/86085940-66970980-badb-11ea-9aae-95b42a396c36.png)<br>
+이 쿼터니언이 칼만필터의 측정값에 해당된다. 행렬 H는 단위행렬이 된다.<br>
+
+#### 센서 융합 칼만 필터
+쿼터니언은 물리적인 의미가 없기 때문에 추정 결과는 오일러 각으로 출력하는게 더 낫다.<br>
+잡음의 공분산 행렬 Q와 R은 시스템의 신호 특성과 관련 있는 값으로 이론적으로 구하기 어렵고 실제 데이터를 분석해봐야한다.<br>
+
+- EulerKalman.m
+    
+      function [phi, theta, psi] = EulerKalman(A,z)
+
+      persistent H Q R
+      persistent x P
+      persistent firstRun
+  
+      if isempty(firstRun)
+          H = eye(4);
+    
+          Q = 0.0001*eye(4);
+          R = 10*eye(4);
+      
+          x = [1 0 0 0]';
+          P = 1*eye(4);
+    
+          firstRun = 1; 
+      end
+
+      xp = A*x;
+      Pp = A*P*A' + Q;
+
+      K = Pp*H'*(H*Pp*H'+R)^-1;
+
+      x = xp + K*(z - H*xp); % x = [q1, q2, q3, q4]
+      P = Pp - K*H*Pp;
+
+      phi = atan2( 2*(x(3)*x(4) + x(1)*x(2)) , 1-2*(x(2)^2 + x(3)^2) );
+      theta = -asin( 2*(x(2)*x(4) - x(1)*x(3)) );
+      psi = atan2( 2*(x(2)*x(3) + x(1)*x(4)), 1-2*(x(3)^2 + x(4)^2) );
+
+      end
+    
+- EulerToQuaternion.m
+
+      function z = EulerToQuaternion(phi,theta,psi)
+
+      sinPhi   = sin(phi/2);   cosPhi   = cos(phi/2);
+      sinTheta = sin(theta/2); cosTheta = cos(theta/2);
+      sinPsi   = sin(psi/2);   cosPsi   = cos(psi/2);
+
+      z = [cosPhi*cosTheta*cosPsi + sinPhi*sinTheta*sinPsi;
+           sinPhi*cosTheta*cosPsi - cosPhi*sinTheta*sinPsi;
+           cosPhi*sinTheta*cosPsi + sinPhi*cosTheta*sinPsi;
+           cosPhi*cosTheta*sinPsi + sinPhi*sinTheta*cosPsi];
+ 
+      end
+
+일반적인 센서 융합 문제에서 시스템 모델이 칼만 필터가 요구하는 선형 시스템 모델로 표현되는 경우는 드물다.<br>
+자이로와 가속도 융합이 특별한 경우다.
+
+#### 사원수(쿼터니언)
+: 복소수를 확장해 만든 수체계<br>
+**a + bi + cj + dk**(a : 실수부 b,c,d : 허수부 및 벡터부)<br>
+<br>
+i^2 = j^2 = k^2 = ijk =-1<br>
+ijk = -1로 통해 아래 식들이 성립한다.<br>
+    
+    ij = k
+    ji = -k
+    jk = i
+    kj = -i
+    ki = j
+    ik = -j
+    
+<br>
+두 사원수 w = w0 + w1i + w2j + w3k와 z = z0 + z1i + z2j + z3k에 대해 곱셈 wz는 다음과 같다.<br>
+
+>wz = (Sw,Vw)(Sz,Vz) = Sw*Sz ㅡ Vw*Vz + Sw*Vz + Sz*Vw + Vw x Vz (S : 실수부, V : 벡터부)<br>
+
+>wz = (w0 + w1i + w2j + w3k)(z0 + z1i + z2j + z3k)<br>
+    = w0*z0 ㅡ  (w1*z1 + x2*z2 + w3*z3) + (w0*z1 + w1*z0 + w2*z3 - w3*z2)i + (w0*z2 + w2*z0 + w3*z1 - w1*z3)j + (w0*z3 + w3*z0 + w1*z2 - w2*z1)k<br>
+    = w0*z0 ㅡ (w.z) + w0*[z] + z0*[w] + [w2*z3 - w3*z2; w3*z1 - w1*z3; w1*z2 - w2*z1]<br>
+    = w0*z0 ㅡ (Vm.Vz) + w0*Vz + z0 * Vm + Vm x Vz (. : 내적, x : 외적)<br>
+    
+사원수 곱셈을 이용하여 다음과 같은 간단한 정리를 이끌어 낼 수 있다.<br>
+
+>wz - zw = Sw*Sz ㅡ Vw.Vz + Sw*Vz + Sz*Vw + Vw x Vz ㅡ (Sz*Sw ㅡ Vz.Vw + Sz*Vw + Sw*Vz + Vz x Vw)<br>
+         = (Vw x Vz) ㅡ (Vz x Vw)<br>
+         = 2*(Vw x Vz)<br>
+   
+위 식은 **[w,z] = wz - zw**로 쓰기도 한다.<br>
+<br>
+사원수의 실수부가 0인 경우르 pure quaternion이라 한다.<br>
+사원수 w,z가 pure quaternion이라 할 때<br>
+
+>wz + zw = Sw*Sz ㅡ Vw*Vz + Sw*Vz + Sz*Vw + Vw x Vz + (Sz*Sw ㅡ Vz*Vw + Sz*Vw + Sw*Vz + Vz x Vw)<br>
+         = -2*(Vw.Vz) + (Vw x Vz) + (Vz + Vw)<br>
+         = -2*(Vw.Vz)<br>
+<br>
+복소수에 대응하는 켤레 복소수를 곱하면 복소수의 크기의 제곱을 얻는다.<br>
+q = q0 + q1i + q2j + q3k -> q* = q0 - q1i - q2j - q3k<br>
+qq* = (q0 + q1i + q2j + q3k)(q0 - q1i - q2j - q3k) = q0^2 + q1^2 + q2^2 + q3^2 = q의 크기 제곱(|q|^2)<br>
+<br>
+사원수 q의 크기 |q|가 1일 때 사원수 q를 **단위 사원수** 라고 한다.
+->q* = q^-1<br>
+<br>
+#### 오일러 각과 사원수
+w = w0 + w1i + w2j + w3k가 단위 사원수라 할 때 w^2 = w0^2 + w1^2 + w2^2 + w3^2 = 1이므로 -1<=w0<=1이다.<br>
+-> **w0 = cosθ** 로 쓸 수 있다.<br>
+<br>
+w = cosθ + v(v = w1i + w2j + w3k)라 쓸 때 다음이 성립한다.<br>
+|w|^2 = cosθ^2 + |v|^2 = 1<br>
+-> |v|^2 = 1 - cosθ^2 = sinθ^2<br>
+<br>
+w의 벡터부 v를 |v|u라 할 때(u는 v와 방향이 같은 단위 벡터) 아래 식을 유도할 수 있다.<br>
+v = u * sinθ<br>
+<br>
+따라서 w = cosθ + v를 다음과 같이 오일러 각에 대한 표현을 바꿀 수 있다.<br>
+w = cosθ + u * sinθ = e^θ*u
+
+#### 쿼터니언 회전
+![image](https://user-images.githubusercontent.com/42115807/86194801-6dc92080-bb8a-11ea-91e1-00db7e2d8835.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86194812-74579800-bb8a-11ea-823e-8f1883982905.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86194822-7e799680-bb8a-11ea-85fc-c25ddb59f35c.png)<br>
+정리한 문서을 토대로 식을 전개하면 최종적으로 아래 공식이 나온다.<br>
+![image](https://user-images.githubusercontent.com/42115807/86085613-81b54980-bada-11ea-8872-ed418294a2fc.png)<br>
