@@ -90,11 +90,11 @@ g : 중력 가속도<br>
 #### 시스템 모델
 오일러각은 문제가 많으므로 쿼터니언(Quantemion)으로 상태변수로 잡겠다.<br>
 ![image](https://user-images.githubusercontent.com/42115807/86085569-6ea27980-bada-11ea-9ad4-15c3431a2703.png)<br>
-![image](https://user-images.githubusercontent.com/42115807/86085613-81b54980-bada-11ea-8872-ed418294a2fc.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86425682-c500f980-bd20-11ea-9e28-1b2107821382.png)<br>
 위 식을 이산(discrete) 시스템으로 바꾸면<br>
-![image](https://user-images.githubusercontent.com/42115807/86085700-bcb77d00-bada-11ea-9013-422d83d94152.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86425697-cfbb8e80-bd20-11ea-862a-eb107ae80908.png)<br>
 아래 식은 오일러 각을 쿼터니언으로 바꾸는 공식이다.<br>
-![image](https://user-images.githubusercontent.com/42115807/86085940-66970980-badb-11ea-9aae-95b42a396c36.png)<br>
+![image](https://user-images.githubusercontent.com/42115807/86425725-de09aa80-bd20-11ea-9275-f95822383701.png)<br>
 이 쿼터니언이 칼만필터의 측정값에 해당된다. 행렬 H는 단위행렬이 된다.<br>
 
 #### 센서 융합 칼만 필터
@@ -219,5 +219,5 @@ w = cosθ + u * sinθ = e^θ*u
 ![image](https://user-images.githubusercontent.com/42115807/86202724-0d43de80-bb9e-11ea-8271-728ae4bd1aa3.png)<br>
 ![image](https://user-images.githubusercontent.com/42115807/86202759-251b6280-bb9e-11ea-80be-6e177bc94b20.png)<br>
 ![image](https://user-images.githubusercontent.com/42115807/86202791-37959c00-bb9e-11ea-9c3e-ed62c9569b95.png)<br>
-정리한 문서을 토대로 식을 전개하면 최종적으로 아래 공식이 나온다.<br>
-![image](https://user-images.githubusercontent.com/42115807/86085613-81b54980-bada-11ea-8872-ed418294a2fc.png)<br>
+정리한 문서을 토대로 식을 전개하면 최종적으로 아래 공식이 나온다.(잘못되었음 고칠 예정)<br>
+![image](https://user-images.githubusercontent.com/42115807/86425682-c500f980-bd20-11ea-9e28-1b2107821382.png)<br>
