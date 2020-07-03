@@ -9,15 +9,10 @@ dt = 0.01;
 for k=1:Nsamples
     [p,q,r] = GetGyro();
     A = eye(4) + dt*1/2*[0, -p, -q, -r;
-                         p   0  -r   q;
-                         q   r   0  -p;
-                         r  -q   p   0];
-                           
-                     % 오타인가....식을 잘못 전개한건가...
-                        %[0, -p, -q, -r;
-                        %p   0  r   -q;
-                        %q   -r   0  p;
-                        %r  q   -p   0];
+                        p   0  r   -q;
+                        q   -r   0  p;
+                        r  q   -p   0];
+
     
     [ax,ay] = GetAccel();
     [phi, theta] = EulerAccel(ax,ay);
