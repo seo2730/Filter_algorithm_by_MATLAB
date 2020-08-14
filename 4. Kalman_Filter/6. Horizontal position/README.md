@@ -218,6 +218,6 @@ w = cosθ + u * sinθ = e^θ*u
 ![image](https://user-images.githubusercontent.com/42115807/86202661-da014f80-bb9d-11ea-9177-662fd38b4c18.png)<br>
 ![image](https://user-images.githubusercontent.com/42115807/86202724-0d43de80-bb9e-11ea-8271-728ae4bd1aa3.png)<br>
 ![image](https://user-images.githubusercontent.com/42115807/86202759-251b6280-bb9e-11ea-80be-6e177bc94b20.png)<br>
-![image](https://user-images.githubusercontent.com/42115807/90265230-3a69f900-de8d-11ea-8603-57b3a35f36f7.jpg)<br>
+![image](https://user-images.githubusercontent.com/42115807/90265583-bbc18b80-de8d-11ea-9294-dea1961ea4d6.png)<br>
 정리한 문서을 토대로 식을 전개하면 최종적으로 아래 공식이 나온다.<br>
 ![image](https://user-images.githubusercontent.com/42115807/86425682-c500f980-bd20-11ea-9e28-1b2107821382.png)<br>
