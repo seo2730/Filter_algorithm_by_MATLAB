@@ -11,7 +11,7 @@ for k=1:Nsamples
     
     [phi_a, theta_a] = EulerAccel(ax,ay);
     
-    [phi theta psi] = EulerEKF([phi_a theta_a]', [p q r], dt);
+    [phi, theta, psi] = EulerEKF([phi_a theta_a]', [p q r], dt);
     
     EulerSaved(k,:) = [phi theta psi];
 end
