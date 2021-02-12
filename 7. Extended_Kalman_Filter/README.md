@@ -33,3 +33,7 @@
 ![image](https://user-images.githubusercontent.com/42115807/107730947-071efe80-6d38-11eb-9d76-2089ac2ebe42.png)
 ![image](https://user-images.githubusercontent.com/42115807/107730961-0f773980-6d38-11eb-8dbd-bcb303def4d2.png)<br>
 이러한 차이점이 있다.<br>
+그러면 여기서 궁금한게 생기는데 공분산 P와 칼만 필터 gain인 K에서 A,H를 어떻게 구하는 것인가?<br>
+가장 고전적인 방법은 **자코비안** 방법을 쓰는 것이다. 즉 **편미분**을 이용하겠다는 말이다.<br>
+아래 식이 자코비안의 간단한 식이다.<br>
+![image](https://user-images.githubusercontent.com/42115807/107731106-7399fd80-6d38-11eb-95da-6db1a2c6053b.png)
