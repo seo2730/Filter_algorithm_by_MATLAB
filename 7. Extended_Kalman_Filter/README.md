@@ -1,5 +1,6 @@
 # Extended Kalman Filter(확장 칼만 필터)
-
+확장 칼만필터를 이해할려면 **자코비안 및 편미분**에 대한 개념이 필요하다.<br>
+<br>
 기존 칼만필터는 선형 시스템을 대상으로 개발된 알고리즘이라 비선형 시스템에는 적용하지 못하기 때문이다.<br>
 비선형 시스템에 적용하기 위한 개발된 칼만필터가 확장 칼만 필터이다.<br> 
 영어로는 Extended Kalman Filter라고 하면 줄여서 **EKF**라고 한다.<br>
@@ -36,4 +37,7 @@
 그러면 여기서 궁금한게 생기는데 공분산 P와 칼만 필터 gain인 K에서 A,H를 어떻게 구하는 것인가?<br>
 가장 고전적인 방법은 **자코비안** 방법을 쓰는 것이다. 즉 **편미분**을 이용하겠다는 말이다.<br>
 아래 식이 자코비안의 간단한 식이다.<br>
-![image](https://user-images.githubusercontent.com/42115807/107731106-7399fd80-6d38-11eb-95da-6db1a2c6053b.png)
+![image](https://user-images.githubusercontent.com/42115807/107731106-7399fd80-6d38-11eb-95da-6db1a2c6053b.png)<br>
+이 방법을 이용해 A와 H를 구하는 식이 아래 식이다.<br>
+![image](https://user-images.githubusercontent.com/42115807/107731418-439f2a00-6d39-11eb-8ac6-34b0df87d8e9.png)<br>
+이 방법을 이용한 예제들을 각 폴더 별로 설명하였으니 참고하시기 바랍니다.
