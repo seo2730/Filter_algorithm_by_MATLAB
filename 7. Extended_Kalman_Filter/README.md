@@ -17,4 +17,19 @@
 <br>
 선형화 방법에는 현재 fuzzy에 관한 내용을 공부할 때 배웠다. fuzzy 공부하실 때 배우시면 좋다.
 
-### 확장 칼만 
+### 확장 칼만 필터 알고리즘
+
+#### 비선형 시스템 모델
+![image](https://user-images.githubusercontent.com/42115807/107730526-fe79f880-6d36-11eb-810f-5291a2c6c230.png)<br>
+이 식이 바로 비선형 시스템 모델이다.<br>
+지금까지 봐온 선형 모델과 다른 점은 상태변수(x_k)와 계수를 따로 분리해서 쓰지 못한다는 점이다.<br>
+아래 그림이 선형 시스템 모델과 비선형 시스템 모델 비교한 그림이다.<br>
+![image](https://user-images.githubusercontent.com/42115807/107730686-60d2f900-6d37-11eb-8e96-53114bc1d50e.png)<br>
+<br>
+아래 그림은 기존 칼만 필터 알고리즘에서 확장 칼만 필터 알고리즘으로 표현한 식이다.<br>
+![image](https://user-images.githubusercontent.com/42115807/107730789-a1327700-6d37-11eb-81d3-b484ff6912ae.png)<br>
+빨간 줄이 기존 식에서 바뀐 것들을 밑줄 친 것이다.<br>
+차이점을 명확하게 보여드리자면<br>
+![image](https://user-images.githubusercontent.com/42115807/107730947-071efe80-6d38-11eb-9d76-2089ac2ebe42.png)
+![image](https://user-images.githubusercontent.com/42115807/107730961-0f773980-6d38-11eb-8dbd-bcb303def4d2.png)<br>
+이러한 차이점이 있다.<br>
