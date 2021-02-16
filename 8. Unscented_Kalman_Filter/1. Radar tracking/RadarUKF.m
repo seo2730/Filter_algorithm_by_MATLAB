@@ -20,6 +20,47 @@ function [pos, vel, alt] = RadarUKF(z,dt)
        firstRun = 1;
     end
     
-    [Xi W] = SigmaPoints(x,P,0);
+    [Xi, W] = SigmaPoints(x,P,0);
     
+    fXi = zeros(n,2*n+1);
+    for k=1:2*n+1
+       fXi(:,k) = fx(Xi(:,k),dt);
+    end
+    
+    [xp, Pp] = UT(fXi,W,Q);
+    
+    hXi = zeros(m,2*n+1);
+    for k=1:2*n+1
+       hXi(:,k) = hx(fXi(:,k));
+    end    
+    
+    [zp, Pz] = UT(hXi,W,R);
+    
+    Pxz = zeros(n,m);
+    for k=1:2*n+1
+       Pxz = Pxz + W(k)*(fXi(:,k)-xp)*(hXi(:,k)-zp)'; 
+    end
+    
+    K = Pxz*inv(Pz);
+    
+    x = xp + K*(z-zp);
+    P = Pp - K*Pz*K';
+    
+    pos = x(1);
+    vel = x(2);
+    alt = x(3);
+end
+
+%-----------------------------------------------
+function xp = fx(x,dt)
+    A = eye(3) + dt*[0 1 0;
+                     0 0 0;
+                     0 0 0];
+                 
+    xp = A*x;
+end
+
+%-----------------------------------------------
+function yp = hx(x)
+    yp = sqrt(x(1)^2+x(3)^2);
 end
