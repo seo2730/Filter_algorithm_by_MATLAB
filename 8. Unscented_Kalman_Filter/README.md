@@ -19,10 +19,12 @@ Unscented 변환 목표 : x에 대해 임의의 함수 f(x)의 평균과 공분�
 그러면 시그마 포인트의 가중 평균과 가중 공분산은 아래와 같다.<br>
 ![image](https://user-images.githubusercontent.com/42115807/110309711-07639e80-8045-11eb-9a60-80c2d41dd345.png)<br>
 <br>
-이 식들을 통해 알 수 있는 점은 무수히 많은 샘플들을 동원하지 않아도 2n+1개의 시그마 포인트와 가중치만 있으면 x의 평균과 공분산을 구할 수 있다.![image](https://user-images.githubusercontent.com/42115807/110309711-07639e80-8045-11eb-9a60-80c2d41dd345.png)<br>
+이 식들을 통해 알 수 있는 점은 무수히 많은 샘플들을 동원하지 않아도 2n+1개의 시그마 포인트와 가중치만 있으면 x의 평균과 공분산을 구할 수 있다.<br>
+![image](https://user-images.githubusercontent.com/42115807/110309711-07639e80-8045-11eb-9a60-80c2d41dd345.png)<br>
+<br>
 
-
-
-
-
+### Unscented 칼만 필터(UKF) 알고리즘
 ![image](https://user-images.githubusercontent.com/42115807/110308372-60323780-8043-11eb-9753-f79e75fb7c0e.png)<br>
+전반적으로 예측->칼만 gain->추정 구조는 그대로 남아있다.<br>
+1. 가장 먼저 하는 일은 현재의 평균(추정값)과 공분산에 맞는 시그마 포인트와 가중치를 선정하는 작업이다.
+2. 그 다음에는 f(x_k)+w_k의 예측값과 오차 공분산을 구한다.
