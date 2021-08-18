@@ -32,7 +32,7 @@ plot(t,VelSaved)
 figure(3)
 plot(t,AltSaved)
 
-figure
+figure(4)
 plot(t,sqrt(PosSaved.^2 + AltSaved.^2))
 hold on
 plot(t,Zsaved)

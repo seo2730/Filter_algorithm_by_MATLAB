@@ -5,9 +5,9 @@ function [pos, vel, alt] = RadarUKF(z,dt)
     persistent firstRun
     
     if isempty(firstRun)
-       Q = [0.01    0    0;
-               0 0.01    0;
-               0    0 0.01];
+       Q = [0.1    0    0;
+               0 0.1    0;
+               0    0 0.1];
            
        R = 100;
        
@@ -20,7 +20,7 @@ function [pos, vel, alt] = RadarUKF(z,dt)
        firstRun = 1;
     end
     
-    [Xi, W] = SigmaPoints(x,P,0);
+    [Xi, W] = SigmaPoints(x,P,10);
     
     fXi = zeros(n,2*n+1);
     for k=1:2*n+1
@@ -31,7 +31,7 @@ function [pos, vel, alt] = RadarUKF(z,dt)
     
     hXi = zeros(m,2*n+1);
     for k=1:2*n+1
-       hXi(:,k) = hx(fXi(:,k));
+       hXi(:,k) = hx(Xi(:,k));
     end    
     
     [zp, Pz] = UT(hXi,W,R);

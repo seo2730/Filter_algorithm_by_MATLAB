@@ -32,7 +32,7 @@ function [phi,theta,psi] = EulerUKF(z,rates,dt)
     
     hXi = zeros(m,2*n+1);
     for k=1:2*n+1
-       hXi(:,k) = hx(fXi(:,k));
+       hXi(:,k) = hx(Xi(:,k));
     end    
     
     [zp, Pz] = UT(hXi,W,R);
